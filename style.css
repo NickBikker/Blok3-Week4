@@ -1,7 +1,9 @@
+
+
 .grid{
     display: grid;
-    width: 1850px;
-    grid-template-columns: auto auto auto auto auto;
+    width: 100%;
+    grid-template-columns: auto auto auto auto;
 }
 
 .Foto{
@@ -13,6 +15,27 @@
     border: red solid 1px;
 }
 
-.naamgame{
-    float: right;s
+.naamgame {
+    float: right;
+}
+
+#formplanner{
+    text-align: center;
+    border: 1px solid black;
+}
+
+#plancontainer{
+    border: 1px solid black;
+    width: 100%;
+    margin-bottom: 3px;
+    padding-left: 100px;
+    background: white;
+}
+
+i{
+    margin: 5px;
+}
+
+#plancontainer:nth-child(odd){
+    background-color: lightgray;
 }

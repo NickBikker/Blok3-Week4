@@ -9,6 +9,7 @@
 <!--</div>-->
 
 <?php
+include "navbar.php";
 require "datalayer.php";
 $id = $_GET['id'];
 $result = GetGame($id,$conn);

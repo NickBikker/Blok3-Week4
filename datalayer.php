@@ -3,6 +3,7 @@ $servername = "localhost";
 $username = "root";
 $password = "mysql";
 $database = "gameplanner";
+date_default_timezone_set("Europe/Amsterdam");
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=".$database, $username, $password);
@@ -28,10 +29,19 @@ function GetGame($id,$conn){
     return $result;
 }
 
+function GetFullPlanning($conn){
+    $query = $conn->prepare('SELECT*FROM planner ORDER BY starttijd ASC');
+    $query->execute();
+    $result = $query->fetchall();
+    return $result;
+}
 
-//foreach($result as $db){
-//    include 'smikkel.php';
-//}
+function GetPlanning($id,$conn){
+    $query = $conn->prepare('SELECT*FROM planner where id=:id');
+    $query->execute([":id"=>$id]);
+    $result = $query->fetch();
+    return $result;
+}
 
 ?>
 
