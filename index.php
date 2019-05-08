@@ -13,9 +13,11 @@ $wholeplanning = GetFullPlanning($conn);
 ?>
 <div class="indexdiv">
 <?php
-foreach($wholeplanning as $result){?>
+foreach($wholeplanning as $result){
+    $spel = GetGame($result["naamspel"], $conn);
+    ?>
     <div id="plancontainer">
-        <h4><i class="fas fa-chess"></i><?php echo $result["naamspel"]?></h4>
+        <h4><i class="fas fa-chess"></i><?php echo $spel["name"]?></h4>
         <h4><i class="far fa-clock"></i><?php echo $result["starttijd"]?></h4>
         <h4><i class="fas fa-users"></i><?php echo $result["spelers"]?></h4>
         <h4><i class="fas fa-graduation-cap"></i><?php echo $result["instructeur"]?></h4>

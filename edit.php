@@ -27,7 +27,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="edit.php?id=<?php echo $result["id"]?>" method="post">
         <fieldset>
             <legend>Inplannen games</legend>
-            <input type="text" name="game" value="<?php echo $result["naamspel"] ?>"><br>
+            <select name="game">
+                <?php
+                $result2 = GetallGames($conn);
+                foreach($result2 as $resultaat){
+                    echo "<option value='".$resultaat['id']."'> ".$resultaat['name']." </option>";
+                }
+                ?>
+            </select><br>
             <input name="plantijd" type="time" value="<?php echo $result["starttijd"] ?>"><br>
             <input name="plandeelnemers" placeholder="Typ je deelnemers hier hier" value="<?php echo $result["spelers"] ?>"><br>
             <input name="planleraar" placeholder="Typ je leraar hier" value="<?php echo $result["instructeur"] ?>"><br>
@@ -38,6 +45,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 </body>
 </html>
-
 
 

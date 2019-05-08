@@ -25,7 +25,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-
 <div id="formplanner">
     <form action="form.php" method="post">
         <fieldset>
@@ -34,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php
                 $result = GetallGames($conn);
                 foreach($result as $resultaat){
-                    echo "<option value='".$resultaat['name']."'> ".$resultaat['name']." </option>";
+                    echo "<option value='".$resultaat['id']."'> ".$resultaat['name']." </option>";
                 }
                 ?>
             </select><br>
