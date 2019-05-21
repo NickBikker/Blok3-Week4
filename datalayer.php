@@ -43,5 +43,19 @@ function GetPlanning($id,$conn){
     return $result;
 }
 
+function insertinto($conn, $game, $players, $time, $teacher ){
+     $query = $conn->prepare("INSERT INTO `planner`(spelers, starttijd, instructeur,naamspel)VALUES (:deelnemers, :tijd, :leraar, :game)");
+   $query->execute([":deelnemers"=>$players, ":tijd"=>$time, ":leraar"=>$teacher, ":game"=>$game]);
+    $message = "toevoegen gelukt!";
+    echo "<script type='text/javascript'>alert('$message'); window.location='index.php';</script>";
+}
+
+function update($conn, $game, $players, $time, $teacher ,$id){
+    $query = $conn->prepare("UPDATE `planner` SET spelers = :deelnemers, starttijd = :tijd, instructeur = :leraar ,naamspel = :game WHERE id = :id");
+    $query->execute([":deelnemers"=>$players, ":tijd"=>$time, ":leraar"=>$teacher, ":game"=>$game,":id"=>$id]);
+    $message = "Aanpassen gelukt!";
+    echo "<script type='text/javascript'>alert('$message'); window.location='index.php';</script>";
+}
+
 ?>
 

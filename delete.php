@@ -23,11 +23,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         header("location: index.php");
     }
 }
+
+$resultgame = GetGame($result["naamspel"], $conn);
 ?>
 
 
 <div id="formplanner">
-    <p><i class="fas fa-dice"></i> Spel: <?php echo $result['naamspel']; ?></p>
+    <p><i class="fas fa-dice"></i> Spel: <?php echo $resultgame['name']; ?></p>
     <p><i class="fas fa-clock"></i> Starttijd: <?php echo $result['starttijd']; ?></p>
     <p><i class="fas fa-users"></i> Spelers: <?php echo $result['spelers']; ?></p>
     <p><i class="fas fa-user-graduate"></i> Uitlegger: <?php echo $result['instructeur']; ?></p>

@@ -39,3 +39,7 @@ i{
 #plancontainer:nth-child(odd){
     background-color: lightgray;
 }
+
+span{
+    color: red;
+}

@@ -14,14 +14,37 @@ $result = GetPlanning($id, $conn);
 ?>
 
 <?php
+$inputs = array("plandeelnemers","plantijd", "planleraar","game");
+
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-   $query = $conn->prepare("UPDATE `planner` SET spelers = :deelnemers, starttijd = :tijd, instructeur = :leraar ,naamspel = :game WHERE id = :id");
-   $query->execute([":deelnemers"=>$_POST["plandeelnemers"], ":tijd"=>$_POST["plantijd"], ":leraar"=>$_POST["planleraar"], ":game"=>$_POST["game"],":id"=>$id]);
-    $message = "Aanpassen gelukt!";
-    echo "<script type='text/javascript'>alert('$message'); window.location='index.php';</script>";
+    $valid = true;
+    foreach($inputs as $value) {
+        $data[$value] = "";
+        $error[$value] = "";
+        if (empty($_POST[$value])) {
+            $error[$value] = "Required";
+            $valid = false;
+        }
+        else {
+            $data[$value] = test_input($_POST[$value]);
+        }
+    }
+
+}
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
+
+if($valid) {
+    update($conn, $_POST["game"], $_POST["plandeelnemers"], $_POST["plantijd"], $_POST["planleraar"], $id);
+
 }
 ?>
-
 
 <div id="formplanner">
     <form action="edit.php?id=<?php echo $result["id"]?>" method="post">
@@ -35,9 +58,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
             </select><br>
-            <input name="plantijd" type="time" value="<?php echo $result["starttijd"] ?>"><br>
-            <input name="plandeelnemers" placeholder="Typ je deelnemers hier hier" value="<?php echo $result["spelers"] ?>"><br>
-            <input name="planleraar" placeholder="Typ je leraar hier" value="<?php echo $result["instructeur"] ?>"><br>
+            <input name="plantijd" type="time" value="<?php echo $result["starttijd"] ?>">
+            <span class="error">* <?php echo $error["plantijd"];?></span><br>
+            <input name="plandeelnemers" placeholder="Typ je deelnemers hier hier" value="<?php echo $result["spelers"] ?>">
+            <span class="error">* <?php echo $error["plandeelnemers"];?></span><br>
+            <input name="planleraar" placeholder="Typ je leraar hier" value="<?php echo $result["instructeur"] ?>">
+            <span class="error">* <?php echo $error["planleraar"];?></span><br>
             <input type="submit">
 
         </fieldset>

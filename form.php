@@ -11,22 +11,40 @@
 <?php require "datalayer.php" ?>
 
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-   $query = $conn->prepare("INSERT INTO `planner`(spelers, starttijd, instructeur,naamspel)VALUES (:deelnemers, :tijd, :leraar, :game)");
-   $query->execute([":deelnemers"=>$_POST["plandeelnemers"], ":tijd"=>$_POST["plantijd"], ":leraar"=>$_POST["planleraar"], ":game"=>$_POST["game"]]);
-    $message = "toevoegen gelukt!";
-    echo "<script type='text/javascript'>alert('$message'); window.location='index.php';</script>";
+
+$inputs = array("plandeelnemers","plantijd", "planleraar","game");
+
+   if($_SERVER["REQUEST_METHOD"] == "POST") {
+   $valid = true;
+   foreach($inputs as $value) {
+       $data[$value] = "";
+       $error[$value] = "";
+       if (empty($_POST[$value])) {
+           $error[$value] = "Required";
+           $valid = false;
+       }
+       else {
+           $data[$value] = test_input($_POST[$value]);
+       }
+   }
+
+}
+function test_input($data) {
+   $data = trim($data);
+   $data = stripslashes($data);
+   $data = htmlspecialchars($data);
+   return $data;
+}
+
+if($valid) {
+  insertinto($conn, $_POST["game"], $_POST["plandeelnemers"], $_POST["plantijd"], $_POST["planleraar"]);
+
 }
 ?>
 
 
-
-
-
-
-
 <div id="formplanner">
-    <form action="form.php" method="post">
+    <form  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
         <fieldset>
             <legend>Inplannen games</legend>
             <select name="game">
@@ -37,9 +55,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
             </select><br>
-            <input name="plantijd" type="time"><br>
-            <input name="plandeelnemers" placeholder="Typ je deelnemers hier hier"><br>
-            <input name="planleraar" placeholder="Typ je leraar hier"><br>
+            <input name="plantijd" type="time" value="<?php echo $_POST["plantijd"] ?>">
+            <span class="error">* <?php echo $error["plantijd"];?></span><br>
+            <input name="plandeelnemers" placeholder="Typ je deelnemers hier hier" value="<?php echo $_POST["plandeelnemers"] ?>">
+            <span class="error">* <?php echo $error["plandeelnemers"];?></span><br>
+            <input name="planleraar" placeholder="Typ je leraar hier" value="<?php echo $_POST["planleraar"] ?>">
+            <span class="error">* <?php echo $error["planleraar"];?></span><br>
             <input type="submit">
 
         </fieldset>
